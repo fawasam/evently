@@ -7,7 +7,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET =
+    process.env.WEBHOOK_SECRET || "whsec_RU4e8/iMvKkh8oFNPt5ksDQnxxhsEGcJ";
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
+  console.log(evt);
 
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } =
