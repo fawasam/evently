@@ -1,12 +1,11 @@
 "use server";
 import { CreateUserParams, UpdateUserParams } from "@/types";
 import { connectToDatabase } from "../database";
-import User from "../database/models/user.model";
 import { handleError } from "@/lib/utils";
-import Event from "../database/models/event.model";
-import Order from "../database/models/order.model";
 import { revalidatePath } from "next/cache";
-
+import User from "@/lib/database/models/user.model";
+import Order from "@/lib/database/models/order.model";
+import Event from "@/lib/database/models/event.model";
 // createUser
 export async function createUser(user: CreateUserParams) {
   try {
@@ -16,6 +15,7 @@ export async function createUser(user: CreateUserParams) {
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
+    console.log(error);
   }
 }
 
