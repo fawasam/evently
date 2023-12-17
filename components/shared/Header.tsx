@@ -1,4 +1,4 @@
-import { SignIn, SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -18,6 +18,7 @@ const Header = () => {
             alt="Evently logo"
           />
         </Link>
+
         <SignedIn>
           <nav className="md:flex-between hidden w-full max-w-xs">
             <NavItems />
@@ -31,7 +32,7 @@ const Header = () => {
           </SignedIn>
           <SignedOut>
             <Button asChild className="rounded-full" size="lg">
-              <Link href={"/sign-in"}>Login</Link>
+              <Link href="/sign-in">Login</Link>
             </Button>
           </SignedOut>
         </div>

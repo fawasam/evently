@@ -6,7 +6,10 @@ import { revalidatePath } from "next/cache";
 import User from "@/lib/database/models/user.model";
 import Order from "@/lib/database/models/order.model";
 import Event from "@/lib/database/models/event.model";
-// createUser
+
+// @desc    Register new user
+// @route   POST /api/users
+// @access  Public
 export async function createUser(user: CreateUserParams) {
   try {
     await connectToDatabase();
@@ -18,6 +21,10 @@ export async function createUser(user: CreateUserParams) {
     console.log(error);
   }
 }
+
+// @desc    Update user
+// @route   POST /api/users
+// @access  Private
 
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
   try {
@@ -34,6 +41,9 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
   }
 }
 
+// @desc    Delete user
+// @route   POST /api/users
+// @access  Private
 export async function deleteUser(clerkId: string) {
   try {
     await connectToDatabase();

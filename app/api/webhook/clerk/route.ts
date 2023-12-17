@@ -6,16 +6,17 @@ import { clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const WEBHOOK_SECRET =
+  const webhookSecret: string =
     process.env.WEBHOOK_SECRET || "whsec_RU4e8/iMvKkh8oFNPt5ksDQnxxhsEGcJ";
-
-  if (!WEBHOOK_SECRET) {
+  if (!webhookSecret) {
     throw new Error(
       "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
     );
   }
 
   // Get the headers
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
@@ -28,12 +29,8 @@ export async function POST(req: Request) {
     });
   }
 
-  // Get the body
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
-
   // Create a new Svix instance with your secret.
-  const wh = new Webhook(WEBHOOK_SECRET);
+  const wh = new Webhook(webhookSecret);
   let evt: WebhookEvent;
 
   // Verify the payload with the headers
@@ -52,6 +49,7 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
+  const { id } = evt.data;
   const eventType = evt.type;
   console.log(evt);
   console.log(`Webhook with and ID of  and type of ${eventType}`);
@@ -109,3 +107,5 @@ export async function POST(req: Request) {
 
   return new Response("", { status: 200 });
 }
+
+type EventType = "user.created" | "user.updated" | "user.deleted" | "*";
